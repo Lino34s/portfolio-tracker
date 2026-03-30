@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useState, useEffect, useCallback, useRef } from "react";
 import { 
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, 
@@ -36,14 +35,20 @@ export default function App() {
 
   // ─── 1. Gerir sessão Supabase (novo) ─────────────────────────────────
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    console.log("Verificando sessão...");
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) console.error("Erro Supabase:", error);
+      console.log("Sessão atual:", session);
       setSession(session);
     });
 
-    return () => subscription.unsubscribe();
-  }, []);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log("Evento Auth:", event, session);
+      setSession(session);
+    });
+
+  return () => subscription.unsubscribe();
+}, []);
 
   // ─── 2. Carregar transações do Supabase (substitui o window.storage) ───
   useEffect(() => {
