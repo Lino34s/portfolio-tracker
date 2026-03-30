@@ -1,11 +1,8 @@
-import { VitePWA } from 'vite-plugin-pwa'
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-export default {
+export default defineConfig({
   plugins: [
-    react(),
-    VitePWA({
-      registerType: 'autoUpdate',
-      manifest: { /* conteúdo do manifest acima */ }
-    })
+    react()
   ]
-}
+})
