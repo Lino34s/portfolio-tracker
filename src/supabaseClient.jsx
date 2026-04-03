@@ -1,9 +1,10 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Se isto der erro no browser, saberemos que é aqui
-console.log("Supabase URL carregado:", !!supabaseUrl)
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Supabase env vars em falta. Verifica o ficheiro .env');
+}
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
